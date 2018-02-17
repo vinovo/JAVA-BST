@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Scanner;
-import org.jfree.ui.RefineryUtilities;
 
 public class Loader {
 	
@@ -22,6 +20,7 @@ public class Loader {
 	
 	
 	/** TODO **/
+	/** Path is found in java.nio.file **/
 	public static DefaultMap<Integer, DefaultMap<String, Integer>> generateDatabase(Path p) {
 		return null;
 	}
