@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface DefaultMap<K, V> {
 	/*
-	 * Sets key to hold value: future calls to get() should find the given key and
+	 * Sets key to hold value: future calls to set() should find the given key and
 	 * size increases by 1.
 	 * 
 	 * Throws IllegalArgumentException if key is null (but value can be null)
