@@ -14,7 +14,7 @@ public class BSTTest {
 	@Test
 	public void testSetAndGet() {
 		BSTDefaultMap<String, Integer> b = new BSTDefaultMap<String, Integer>(100000);
-		assertEquals(0, b.size);
+		assertEquals(0, b.size());
 		b.set("", 15);
 		assertEquals((Integer) 15, (Integer) b.get(""));
 		b.set("A", 20);
@@ -24,11 +24,11 @@ public class BSTTest {
 		assertEquals((Integer) 250, (Integer) b.get("A"));
 	}
 
-	@Test(expected = NoSuchElementException.class)
+	@Test
 	public void getNull() {
 		BSTDefaultMap<String, Integer> b = new BSTDefaultMap<String, Integer>(0);
 		b.set("A", null);
-		b.get("A");
+		assertNull(b.get("A"));
 	}
 
 	@Test(expected = NoSuchElementException.class)
