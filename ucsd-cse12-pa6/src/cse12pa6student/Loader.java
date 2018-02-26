@@ -101,7 +101,12 @@ public class Loader {
 											// String
 				int spaceIndex = s.indexOf(" ");
 				String add = s.substring(0, spaceIndex);
-				wordList.add(add);
+				if (add.charAt(0) == '\'')
+					// If the starting character is an apostrophes, add it to
+					// the end of last word
+					wordList.set(wordList.size() - 1, wordList.get(wordList.size() - 1) + add);
+				else
+					wordList.add(add);
 				s = s.substring(spaceIndex);
 				// In case there are multiple spaces between words
 				while (s.length() > 0 && s.charAt(0) == ' ') {
