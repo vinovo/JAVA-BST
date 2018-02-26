@@ -155,7 +155,10 @@ public class Loader {
 
 	public static void main(String[] args) throws IOException {
 		Path path = Paths.get("./data");
+		long start1 = System.currentTimeMillis();
 		DefaultMap<Integer, DefaultMap<String, Integer>> database = generateDatabase(path);
+		long end1 = System.currentTimeMillis();
+		System.out.println("runtime of database is " + (end1 - start1) / 1000);
 		Scanner input = new Scanner(System.in);
 		String[] queries = new String[2];
 		int index = 0;
@@ -165,8 +168,11 @@ public class Loader {
 			queries[index] = query;
 			index++;
 		}
+		long start2 = System.currentTimeMillis();
 		final Graph chart = makeGraph(database, queries);
 		chart.showChart();
+		long end2 = System.currentTimeMillis();
+		System.out.println("runtime of making graph is " + (end2 - start2));
 		/* Example of creating a chart */
 
 		// String nGramPhrase = "";
