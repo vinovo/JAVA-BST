@@ -91,53 +91,68 @@ public class Loader {
 		return new Graph(title, year, map);
 	}
 
-	// helper method
+	// helper method that collects words from data to a list
 	private static List<String> collectWords(List<String> lst, int nValue) {
 		List<String> gramList = new ArrayList<String>();
-		List<String> wordList = new ArrayList<String>();
+		List<String> stringList = new ArrayList<String>();
 		for (String str : lst) {
-			String s = new String(str);
-			while (s.indexOf(" ") >= 0) { // When there's still space in the
-											// String
-				int spaceIndex = s.indexOf(" ");
-				String add = s.substring(0, spaceIndex);
-				if (add.charAt(0) == '\'')
-					// If the starting character is an apostrophes, add it to
-					// the end of last word
-					wordList.set(wordList.size() - 1, wordList.get(wordList.size() - 1) + add);
-				else
-					wordList.add(add);
-				s = s.substring(spaceIndex);
-				// In case there are multiple spaces between words
+			String s = new String(str); // each s is a line of text
+			while (s.length() > 0) { // When the line is not empty
+				// Delete all the blank spaces before a word
 				while (s.length() > 0 && s.charAt(0) == ' ') {
 					s = s.substring(1);
 				}
+				int spaceIndex = s.indexOf(" "); // find first blank space after
+													// the string.
+				// if there's no more blank spaces in the line.
+				if (spaceIndex < 0) {
+					if (s.length() > 0){
+						stringList.add(s);
+						s = "";
+					}
+					else
+						break;
+				} else {	//when there's still blank spaces.
+					String add = s.substring(0, spaceIndex);
+					if (add.charAt(0) == '\'')
+						// If the starting character is an apostrophes, add it
+						// to
+						// the end of last word
+						stringList.set(stringList.size() - 1, stringList.get(stringList.size() - 1) + add);
+					else if (stringList.get(stringList.size()-1).equals(".")){	//If the preceded string is a period
+						// if the string to be added starts with upper-case
+						// letter,
+						// convert it to lower
+						add = toLowerCase(add);
+						stringList.add(add);
+					}
+					else
+						stringList.add(add); //Otherwise simply add the string to the list.
+					s = s.substring(spaceIndex);
+				}
 			}
-			// In case the end of a line is not a space
-			if (s.length() != 0)
-				wordList.add(s);
 			// !!! signals the end of a line.
-			wordList.add("!!!");
+			stringList.add("!!!");
 		}
-		// wordList should have been properly filled upon here.
-		for (int i = 0; i < wordList.size() - nValue + 1; i++) {
+		// stringList should have been properly filled upon here.
+		for (int i = 0; i < stringList.size() - nValue + 1; i++) {
 			// boolean to check whether to add the String to list
 			boolean add = true;
 			// Increment i until we get a word
-			while (i < wordList.size() && !isWord(wordList.get(i)))
+			while (i < stringList.size() && !isWord(stringList.get(i)))
 				i++;
 			// If there's no enough valid word left in the list, just break the
 			// for loop
-			if (i >= wordList.size() - nValue + 1)
+			if (i >= stringList.size() - nValue + 1)
 				break;
-			String str = wordList.get(i);
+			String str = stringList.get(i);
 			for (int j = i + 1; j < i + nValue; j++) {
-				if (!isWord(wordList.get(j))) {
+				if (!isWord(stringList.get(j))) {
 					i = j; // skip all the element between i and j.
 					add = false; // Don't add this String to the list.
 					break;
 				}
-				str += " " + wordList.get(j);
+				str += " " + stringList.get(j);
 			}
 			if (add) {
 				gramList.add(str);
@@ -151,6 +166,13 @@ public class Loader {
 		if (!Character.isAlphabetic(s.charAt(0)) && !Character.isDigit(s.charAt(0)))
 			return false;
 		return true;
+	}
+
+	// helper method that convert starting upper letter to lower
+	private static String toLowerCase(String s) {
+		if (!s.equals("I"))	//If s is a single letter "I", don't transform to lower case
+			s = Character.toLowerCase(s.charAt(0)) + s.substring(1);
+		return s;
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -168,20 +190,11 @@ public class Loader {
 			queries[index] = query;
 			index++;
 		}
+		input.close();
 		long start2 = System.currentTimeMillis();
 		final Graph chart = makeGraph(database, queries);
 		chart.showChart();
 		long end2 = System.currentTimeMillis();
 		System.out.println("runtime of making graph is " + (end2 - start2));
-		/* Example of creating a chart */
-
-		// String nGramPhrase = "";
-		// List<Integer> listOfYears = new ArrayList<Integer>();
-		// DefaultMap<String, List<Integer>> mapOfNGramToCounts = new
-		// BSTDefaultMap<>(null);
-
-		// final Graph chart = new Graph(nGramPhrase, listOfYears,
-		// mapOfNGramToCounts);
-		// chart.showChart();
 	}
 }
