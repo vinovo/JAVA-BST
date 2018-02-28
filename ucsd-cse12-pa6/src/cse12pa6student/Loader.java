@@ -106,28 +106,28 @@ public class Loader {
 													// the string.
 				// if there's no more blank spaces in the line.
 				if (spaceIndex < 0) {
-					if (s.length() > 0){
+					if (s.length() > 0) {
 						stringList.add(s);
 						s = "";
-					}
-					else
+					} else
 						break;
-				} else {	//when there's still blank spaces.
+				} else { // when there's still blank spaces.
 					String add = s.substring(0, spaceIndex);
 					if (add.charAt(0) == '\'')
 						// If the starting character is an apostrophes, add it
 						// to
 						// the end of last word
 						stringList.set(stringList.size() - 1, stringList.get(stringList.size() - 1) + add);
-					else if (stringList.get(stringList.size()-1).equals(".")){	//If the preceded string is a period
-						// if the string to be added starts with upper-case
+					// if the preceded string is a period.
+					else if (stringList.size() > 0 && stringList.get(stringList.size() - 1).equals(".")) {
+						// if the string to be added starts with an upper-case
 						// letter,
 						// convert it to lower
 						add = toLowerCase(add);
 						stringList.add(add);
-					}
-					else
-						stringList.add(add); //Otherwise simply add the string to the list.
+					} else
+						stringList.add(add); // Otherwise simply add the string
+												// to the list.
 					s = s.substring(spaceIndex);
 				}
 			}
@@ -170,7 +170,8 @@ public class Loader {
 
 	// helper method that convert starting upper letter to lower
 	private static String toLowerCase(String s) {
-		if (!s.equals("I"))	//If s is a single letter "I", don't transform to lower case
+		if (!s.equals("I")) // If s is a single letter "I", don't transform to
+							// lower case
 			s = Character.toLowerCase(s.charAt(0)) + s.substring(1);
 		return s;
 	}
