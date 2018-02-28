@@ -114,9 +114,7 @@ public class Loader {
 				} else { // when there's still blank spaces.
 					String add = s.substring(0, spaceIndex);
 					if (stringList.size() > 0 && (add.charAt(0) == '\'' || add.equals("n't")))
-						// If the starting character is an apostrophes, add it
-						// to
-						// the end of last word
+						// append the String to the end of the last String.
 						stringList.set(stringList.size() - 1, stringList.get(stringList.size() - 1) + add);
 					// if the preceded string is a period.
 					else if (stringList.size() > 0 && stringList.get(stringList.size() - 1).equals(".")) {
