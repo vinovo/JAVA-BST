@@ -113,7 +113,7 @@ public class Loader {
 						break;
 				} else { // when there's still blank spaces.
 					String add = s.substring(0, spaceIndex);
-					if (add.charAt(0) == '\'')
+					if (stringList.size() > 0 && add.charAt(0) == '\'')
 						// If the starting character is an apostrophes, add it
 						// to
 						// the end of last word
